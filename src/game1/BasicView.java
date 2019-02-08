@@ -24,6 +24,7 @@ public class BasicView extends JComponent {
         for (BasicAsteroid a : game.asteroids) {
             a.draw(g);
         }
+        game.ship.draw(g);
     }
 
     @Override

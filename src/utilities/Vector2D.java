@@ -106,7 +106,6 @@ public final class Vector2D {
 
     // multiply with factor
     public Vector2D mult(double fac) {
-//        return new Vector2D(this.x * fac, this.y * fac);
         this.x *= fac;
         this.y *= fac;
         return this;
