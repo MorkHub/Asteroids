@@ -9,9 +9,10 @@ public class JEasyFrame extends JFrame {
         super(title);
         this.comp = comp;
         getContentPane().add(BorderLayout.CENTER, comp);
-        pack();
-        this.setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        repaint();
+
+        pack();
+        setVisible(true);
+        setLocationRelativeTo(null);
     }
 }

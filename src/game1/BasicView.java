@@ -21,8 +21,6 @@ public class BasicView extends JComponent {
         g.setColor(BG_COLOR);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-//        BasicAsteroid.hue = (BasicAsteroid.hue + 0.01f) % 1;
-
         for (BasicAsteroid a : game.asteroids) {
             a.draw(g);
         }
