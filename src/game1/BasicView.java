@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BasicView extends JComponent {
-    // background colour
     public static final Color BG_COLOR = Color.black;
     float hue = 0;
 
@@ -16,15 +15,18 @@ public class BasicView extends JComponent {
 
     @Override
     public void paintComponent(Graphics g0) {
-        Graphics2D g = (Graphics2D) g0;
-        // paint the background
-        g.setColor(BG_COLOR);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        synchronized (BasicGame.class) {
+            Graphics2D g = (Graphics2D) g0;
 
-        for (BasicAsteroid a : game.asteroids) {
-            a.draw(g);
+            if (!Constants.OVERLAY) {
+                g.setColor(BG_COLOR);
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+
+            game.objects.forEach(o -> o.draw(g));
+            game.ship.draw(g);
+            game.info.draw(g);
         }
-        game.ship.draw(g);
     }
 
     @Override

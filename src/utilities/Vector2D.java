@@ -46,7 +46,7 @@ public final class Vector2D {
     // String for displaying vector as text
     @Override
     public String toString() {
-        return String.format("Vector2D[x=%.1f,%.1f]", x, y);
+        return String.format("[%.1f %.1f]", x, y);
     }
 
     //  magnitude (= "length") of this vector
