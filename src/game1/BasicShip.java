@@ -90,7 +90,7 @@ public class BasicShip extends GameObject {
     }
 
     public void hit() {
-        game.lives--;
+        this.dead = (--game.lives) <= 0;
     }
 
     public BasicBullet fire() {
