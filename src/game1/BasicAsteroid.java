@@ -6,14 +6,17 @@ import static game1.Constants.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.List;
 
 public class BasicAsteroid extends GameObject {
-    public static final double size = 300;
     public static final double MAX_SPEED = 200;
 
+    List<Class<? extends GameObject>> collidables = Arrays.asList(BasicShip.class, BasicBullet.class);
+
     public BasicAsteroid(double x, double y, double vx, double vy, double dx, double dy) {
-        super(new Vector2D(x, y), new Vector2D(vx, vy), new Vector2D(dx, dy));
+        super(new Vector2D(x, y), new Vector2D(vx, vy), new Vector2D(dx, dy), 150);
         if (velocity.mag() < 100) velocity.mult(4);
         direction.normalise();
     }
@@ -23,8 +26,14 @@ public class BasicAsteroid extends GameObject {
         return new BasicAsteroid(r.nextInt(FRAME_WIDTH), r.nextInt(FRAME_HEIGHT), 2 * MAX_SPEED * r.nextDouble() - MAX_SPEED, 2 * MAX_SPEED * r.nextDouble() - MAX_SPEED, r.nextDouble() * Math.PI, r.nextDouble() * Math.PI);
     }
 
-    private int[] XP = {(int) size/2, (int)  size/2, (int) -size/2, (int) -size/2};
-    private int[] YP = {(int) size/2, (int) -size/2, (int) -size/2, (int)  size/2};
+    private int[] XP = {(int) size, (int)  size, (int) -size, (int) -size};
+    private int[] YP = {(int) size, (int) -size, (int) -size, (int)  size};
+
+    @Override
+    public void hit() {
+        super.hit();
+        game.score += 75;
+    }
 
     @Override
     public void draw(Graphics2D g) {

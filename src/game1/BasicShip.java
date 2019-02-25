@@ -20,28 +20,26 @@ public class BasicShip extends GameObject {
     private static final double DRAG = 0.01;
 
     private static final Color color = Color.cyan;
+    private static final Color thrustColor = Color.orange;
 
     private long lastBullet = 0;
 
     // controller which provides an Action object in each frame
     private BasicController ctrl;
 
-    private Stroke body = new BasicStroke(2);
-    private Stroke pointer = new BasicStroke(3);
-
-    private int[] XP = {0, (int) size, 0, (int) -size};
-    private int[] YP = {(int) -size, (int) size, 0, (int) size};
-    private int[] XPTHRUST = {0, (int) -size, 0, (int) size};
-    private int[] YPTHRUST = {0, (int) size, (int) size / 2, (int) size};
+    private int[] XP = { 0, (int) size, 0, (int) -size };
+    private int[] YP = { (int) -size, (int) size, 0, (int) size };
+    private int[] XPTHRUST = { 0, (int) -size, 0, (int) size };
+    private int[] YPTHRUST = { 0, (int) size, (int) size / 2, (int) size };
 
     public Vector2D getDirection() {
         return direction;
     }
 
     BasicShip() {
-        super(new Vector2D((double) FRAME_WIDTH / 2, (double) FRAME_HEIGHT / 2), new Vector2D(), new Vector2D(0, -1).normalise());
+        super(new Vector2D((double) FRAME_WIDTH / 2, (double) FRAME_HEIGHT / 2), new Vector2D(),
+                new Vector2D(0, -1).normalise(), 100);
     }
-
 
     BasicShip(BasicController ctrl) {
         this();
@@ -67,23 +65,21 @@ public class BasicShip extends GameObject {
     }
 
     public void draw(Graphics2D g) {
-        synchronized (BasicGame.class) {
-            AffineTransform at = g.getTransform();
-            g.translate(position.x, position.y);
-            double rot = direction.angle() + Math.PI / 2;
-            g.rotate(rot);
-            g.scale(DRAWING_SCALE, DRAWING_SCALE);
-            g.setColor(color);
-            g.fillPolygon(XP, YP, XP.length);
-            if (ctrl.action().thrust != 0) {
-                g.setColor(Color.red);
-                g.fillPolygon(XPTHRUST, YPTHRUST, XPTHRUST.length);
-            }
-            g.setTransform(at);
+        AffineTransform at = g.getTransform();
+        g.translate(position.x, position.y);
+        double rot = direction.angle() + Math.PI / 2;
+        g.rotate(rot);
+        g.scale(DRAWING_SCALE, DRAWING_SCALE);
+        g.setColor(color);
+        g.fillPolygon(XP, YP, XP.length);
+        if (ctrl.action().thrust != 0) {
+            g.setColor(thrustColor);
+            g.fillPolygon(XPTHRUST, YPTHRUST, XPTHRUST.length);
         }
+        g.setTransform(at);
     }
 
-    private double fireRate = 2.5;
+    private double fireRate = 3;
 
     public boolean canFire() {
         long now = System.nanoTime();
@@ -93,10 +89,18 @@ public class BasicShip extends GameObject {
         return fire;
     }
 
+    public void hit() {
+        game.lives--;
+    }
+
     public BasicBullet fire() {
         Random r = new Random();
-        double cone = Math.toRadians(fireRate/20);
-        return new BasicBullet(new Vector2D(position), new Vector2D(direction).normalise().mult(1000).rotate(2 * r.nextDouble() * cone - cone).add(velocity), new Vector2D(direction));
+        double cone = Math.toRadians(fireRate / 20);
+
+        game.score -= 5;
+
+        return new BasicBullet(new Vector2D(position),
+                new Vector2D(direction).normalise().mult(1000).rotate(2 * r.nextDouble() * cone - cone).add(velocity),
+                new Vector2D(direction));
     }
 }
-

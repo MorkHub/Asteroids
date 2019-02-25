@@ -8,14 +8,17 @@ import java.awt.geom.AffineTransform;
 import static game1.Constants.*;
 
 public class BasicBullet extends GameObject {
-    public static final double size = 70;
     public long die;
 
     private int[] XP = {0, (int) size, 0, (int) -size};
     private int[] YP = {(int) -size, (int) size, 0, (int) size};
 
+    public double size() {
+        return this.size;
+    }
+
     public BasicBullet(Vector2D position, Vector2D velocity, Vector2D direction) {
-        super(position, velocity, direction);
+        super(position, velocity, direction, 70);
         die = System.nanoTime() + 1_000_000_000 * 2;
     }
 

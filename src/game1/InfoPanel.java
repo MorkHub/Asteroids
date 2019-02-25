@@ -8,7 +8,8 @@ public class InfoPanel {
 
     private BasicGame game;
     private long ns = System.nanoTime();
-    private String output = "";
+    private String left = "";
+    private String right = "";
 
     private Vector2D pos;
 
@@ -25,7 +26,8 @@ public class InfoPanel {
         BasicShip ship = game.ship;
         long fps = 1_000_000_000L / (-ns + (ns=System.nanoTime()));
 
-        this.output = String.format("FPS: %s\nPOS: %s\nVEL: %s\nDIR: %s\n", fps, ship.getPosition(), ship.getVelocity(), ship.getDirection());
+        this.left = String.format("FPS: %s\nPOS: %s\nVEL: %s\nDIR: %s", fps, ship.getPosition(), ship.getVelocity(), ship.getDirection(), game.score);
+        this.right = String.format("LIVES: %d\nSCORE: %,d", game.lives, game.score);
     }
 
     public void draw(Graphics2D g) {
@@ -36,15 +38,19 @@ public class InfoPanel {
         g.setColor(Color.GREEN);
         g.setFont(Constants.UI_FONT);
 
-        String[] lines = output.split("\n");
+        String[] lines = right.split("\n");
+        for (String s : lines) {
+            g.drawString(s, game.view.getWidth() - x - g.getFontMetrics().stringWidth(s), y);
+            y += h;
+        }
 
-        int screenMax = game.view.getHeight() / h;
-        int first = Math.min(0, 0);
-
+        y = (int) pos.y;
+        lines = left.split("\n");
         for (String s : lines) {
             g.drawString(s, x, y);
             y += h;
         }
+
         for (GameObject o : game.objects) {
             g.drawString(o.toString(), x, y);
             y += h;
