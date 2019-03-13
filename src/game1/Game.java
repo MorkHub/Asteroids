@@ -24,6 +24,7 @@ public class Game {
     public View view;
     private int score;
     private int lives;
+    public boolean reset = false;
     int level = 1;
 
     public int getLevel() {
@@ -50,6 +51,13 @@ public class Game {
     public void populate() {
         for (int i = 0; i < N_INITIAL_ASTEROIDS + Math.pow((level > 0 ? level : 1), 1.4); i++)
             objects.add(Asteroid.makeRandomAsteroid());
+
+        if ((level) % 4 == 0) {
+            Enemy e = Enemy.makeRandomEnemy();
+            System.out.println("enemy: " + e);
+            objects.add(e);
+        }
+
         ship.invuln(5);
     }
 
@@ -101,9 +109,10 @@ public class Game {
     }
 
     public void update(long dt) {
-        if (asteroids() == 0) {
+        if (asteroids() == 0 || reset) {
             level++;
             populate();
+            reset = false;
         }
 
         ship.update(dt);

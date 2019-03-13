@@ -34,12 +34,13 @@ public class Asteroid extends GameObject {
 
     @Override
     public boolean collidesWith(GameObject other) {
-        return other instanceof Bullet || other instanceof Ship;
+        return other instanceof Bullet && !(other instanceof EnemyBullet) || other instanceof Ship && !(other instanceof Enemy);
     }
 
     public static Asteroid makeRandomAsteroid() {
         Random r = new Random();
         int width, height;
+
         if (game != null && game.view != null) {
             width = game.view.getWidth();
             height = game.view.getHeight();

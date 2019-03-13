@@ -60,7 +60,7 @@ public abstract class GameObject {
     }
 
     public boolean collidesWith(GameObject other) {
-        return true;
+        return true && other.collidesWith(this);
     }
 
     public void collisionHandling(GameObject other) {

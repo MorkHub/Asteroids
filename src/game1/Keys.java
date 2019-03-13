@@ -6,6 +6,8 @@ import utilities.Controller;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import game1.Constants.*;
+
 public class Keys extends KeyAdapter implements Controller {
     Action action;
     public Keys() {
@@ -28,7 +30,7 @@ public class Keys extends KeyAdapter implements Controller {
                 Constants.game.level--;
                 break;
             case KeyEvent.VK_END:
-                Constants.game.objects.clear();
+                Constants.game.reset = true;
                 break;
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:

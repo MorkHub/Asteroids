@@ -3,6 +3,7 @@ package game1;
 import utilities.Controller;
 import utilities.Vector2D;
 
+import static game1.Asteroid.MAX_SPEED;
 import static game1.Constants.*;
 
 import java.awt.*;
@@ -11,26 +12,26 @@ import java.util.Random;
 
 public class Ship extends GameObject {
     // rotation velocity in radians per second
-    private static final double STEER_RATE = 2.5 * Math.PI;
+    protected static final double STEER_RATE = 2.5 * Math.PI;
 
     // acceleration when thrust is applied
-    private static final double MAG_ACC = 30;
+    protected static final double MAG_ACC = 30;
 
     // constant speed loss factor
-    private static final double DRAG = 0.01;
+    protected static final double DRAG = 0.01;
 
     private static final Color color = Color.cyan;
     private static final Color thrustColor = Color.orange;
 
-    private long lastBullet = 0;
+    protected long lastBullet = 0;
 
-    private long invuln = 0;
+    protected long invuln = 0;
 
     // controller which provides an Action object in each frame
 
-    private Controller ctrl;
-    private int[] XP = {0, (int) size, 0, (int) -size};
+    protected Controller ctrl;
 
+    private int[] XP = {0, (int) size, 0, (int) -size};
     private int[] YP = {(int) -size, (int) size, 0, (int) size};
     private int[] XPTHRUST = {0, (int) -size, 0, (int) size};
     private int[] YPTHRUST = {0, (int) size, (int) size / 2, (int) size};
@@ -39,10 +40,14 @@ public class Ship extends GameObject {
         return direction;
     }
 
+    public Ship(double x, double y, double vx, double vy, double dx, double dy, double size) {
+        super(new Vector2D(x, y), new Vector2D(vx, vy), new Vector2D(dx, dy), size);
+        if (velocity.mag() < MAX_SPEED / 4) velocity.mult(4);
+        direction.normalise();
+    }
+
     Ship() {
-        super(new Vector2D((double) FRAME_WIDTH / 2, (double) FRAME_HEIGHT / 2), new Vector2D(),
-                new Vector2D(0, -1).normalise(), 100);
-        invuln(3);
+        this((double) FRAME_WIDTH / 2, (double) FRAME_HEIGHT / 2, 0, 0,0, -1, 100);
     }
 
     Ship(Controller ctrl) {
