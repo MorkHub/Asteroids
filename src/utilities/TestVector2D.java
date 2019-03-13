@@ -1,24 +1,21 @@
 package utilities;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertSame;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class TestVector2D {
 
-    public static final double APPROX_ZERO = 1E-10;
-    public static final int WIDTH = 200;
-    public static final int HEIGHT = 100;
-    public static final double RADIUS = Math.random() * 0.1 * WIDTH;
-    public static final double vx = Math.random() * WIDTH;
-    public static final double vy = Math.random() * HEIGHT;
-    public static final double wx = Math.random() * WIDTH;
-    public static final double wy = Math.random() * HEIGHT;
-    public Vector2D v, w, vCopy, wCopy;
+    private static final double APPROX_ZERO = 1E-10;
+    private static final int WIDTH = 200;
+    private static final int HEIGHT = 100;
+    private static final double RADIUS = Math.random() * 0.1 * WIDTH;
+    private static final double vx = Math.random() * WIDTH;
+    private static final double vy = Math.random() * HEIGHT;
+    private static final double wx = Math.random() * WIDTH;
+    private static final double wy = Math.random() * HEIGHT;
+    private Vector2D v, w, vCopy, wCopy;
 
     // reset v and w to be equal to V and W before every test
     @Before
@@ -30,12 +27,12 @@ public class TestVector2D {
     }
 
     // approximate equality of two double values
-    public static void approxEquals(double d1, double d2) {
+    private static void approxEquals(double d1, double d2) {
         assertEquals(d1, d2, APPROX_ZERO);
     }
 
     // approximate equality of two Vector2D objects
-    public static void approxEquals(Vector2D a, Vector2D b) {
+    private static void approxEquals(Vector2D a, Vector2D b) {
         approxEquals(a.x, b.x);
         approxEquals(a.y, b.y);
     }
@@ -77,10 +74,10 @@ public class TestVector2D {
 
     @Test
     public void testEquals() {
-        assertTrue(v.equals(vCopy));
-        assertTrue(vCopy.equals(v));
-        assertFalse(v.equals(new Vector2D(vx - 1, vy)));
-        assertFalse(v.equals(new Vector2D(vx, vy - 1)));
+        assertEquals(v, vCopy);
+        assertEquals(vCopy, v);
+        assertNotEquals(v, new Vector2D(vx - 1, vy));
+        assertNotEquals(v, new Vector2D(vx, vy - 1));
     }
 
     @Test
@@ -105,15 +102,15 @@ public class TestVector2D {
     public void testAngle2() {
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++) {
-                double vangle = -Math.PI + i * 0.24 * Math.PI;
-                double wangle = -Math.PI + j * 0.24 * Math.PI;
-                double vmag = 1 + Math.random() * 10;
-                double wmag = 1 + Math.random() * 10;
-                v = new Vector2D(vmag * Math.cos(vangle), vmag * Math.sin(vangle));
-                w = new Vector2D(wmag * Math.cos(wangle), wmag * Math.sin(wangle));
+                double vAngle = -Math.PI + i * 0.24 * Math.PI;
+                double wAngle = -Math.PI + j * 0.24 * Math.PI;
+                double vMag = 1 + Math.random() * 10;
+                double wMag = 1 + Math.random() * 10;
+                v = new Vector2D(vMag * Math.cos(vAngle), vMag * Math.sin(vAngle));
+                w = new Vector2D(wMag * Math.cos(wAngle), wMag * Math.sin(wAngle));
                 Vector2D vCopy = new Vector2D(v.x, v.y);
                 Vector2D wCopy = new Vector2D(w.x, w.y);
-                double result = wangle - vangle;
+                double result = wAngle - vAngle;
                 if (result < -Math.PI)
                     result += 2 * Math.PI;
                 if (result > Math.PI)
@@ -205,7 +202,6 @@ public class TestVector2D {
 
     @Test
     public void testWrap() {
-        System.out.println();
         for (int i : new int[] { -1, 0, 1 }) {
             for (int j : new int[] { -1, 0, 1 }) {
                 double dx = Math.random();

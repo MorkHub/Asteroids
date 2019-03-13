@@ -12,30 +12,30 @@ import java.util.ListIterator;
 import static game1.Constants.*;
 
 public class Game {
-    public static final int N_INITIAL_ASTEROIDS = (int) (Math.pow(5,
+    private static final int N_INITIAL_ASTEROIDS = (int) (Math.pow(5,
             (Math.log((double) Math.min(Toolkit.getDefaultToolkit().getScreenSize().height,
                     Toolkit.getDefaultToolkit().getScreenSize().width) / 200))) / 2);
-    public List<GameObject> objects = new ArrayList<>();
-    public List<GameObject> objectsToAdd = new ArrayList<>();
+    List<GameObject> objects = new ArrayList<>();
+    private List<GameObject> objectsToAdd = new ArrayList<>();
 
-    public Ship ship;
-    public Controller ctrl;
-    public InfoPanel info;
-    public View view;
+    Ship ship;
+    Controller ctrl;
+    InfoPanel info;
+    View view;
     private int score;
     private int lives;
-    public boolean reset = false;
+    boolean reset = false;
     int level = 1;
 
-    public int getLevel() {
+    int getLevel() {
         return level;
     }
 
-    public void addObject(GameObject o) {
+    void addObject(GameObject o) {
         objectsToAdd.add(o);
     }
 
-    public Game() {
+    private Game() {
         ctrl = new Keys();
         ship = new Ship(ctrl);
         score = 0;
@@ -48,20 +48,19 @@ public class Game {
         view = new View(game);
     }
 
-    public void populate() {
+    private void populate() {
         for (int i = 0; i < N_INITIAL_ASTEROIDS + Math.pow((level > 0 ? level : 1), 1.4); i++)
             objects.add(Asteroid.makeRandomAsteroid());
 
         if ((level) % 4 == 0) {
             Enemy e = Enemy.makeRandomEnemy();
-            System.out.println("enemy: " + e);
             objects.add(e);
         }
 
         ship.invuln(5);
     }
 
-    public void over() {
+    private void over() {
         Graphics g = view.getGraphics();
         g.fillRect(0, 0, view.getWidth(), view.getHeight());
 
@@ -80,7 +79,6 @@ public class Game {
         frame.addKeyListener(game.ctrl);
 
         long from = System.nanoTime();
-        boolean alive = true;
         while (game.view.isVisible() && game.getLives() > 0) {
             game.update(-from + (from = System.nanoTime()));
             game.view.repaint();
@@ -90,25 +88,23 @@ public class Game {
         game.over();
     }
 
-    long ns = System.nanoTime();
-
-    public int modLives(int diff) {
+    int modLives(int diff) {
         return lives += diff;
     }
 
-    public int modScore(int value) {
+    int modScore(int value) {
         return score += value;
     }
 
-    public int asteroids() {
+    int asteroids() {
         return (int) objects.stream().filter(o -> o instanceof Asteroid).count();
     }
 
-    public int getScore() {
+    int getScore() {
         return score;
     }
 
-    public void update(long dt) {
+    private void update(long dt) {
         if (asteroids() == 0 || reset) {
             level++;
             populate();
@@ -144,13 +140,9 @@ public class Game {
         }
 
         info.update();
-
-        if (lives < 1) {
-
-        }
     }
 
-    public int getLives() {
+    int getLives() {
         return lives;
     }
 }

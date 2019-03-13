@@ -6,8 +6,6 @@ import utilities.Controller;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import game1.Constants.*;
-
 public class Keys extends KeyAdapter implements Controller {
     Action action;
     public Keys() {

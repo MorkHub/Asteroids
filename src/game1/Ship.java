@@ -12,24 +12,24 @@ import java.util.Random;
 
 public class Ship extends GameObject {
     // rotation velocity in radians per second
-    protected static final double STEER_RATE = 2.5 * Math.PI;
+    private static final double STEER_RATE = 2.5 * Math.PI;
 
     // acceleration when thrust is applied
-    protected static final double MAG_ACC = 30;
+    private static final double MAG_ACC = 30;
 
     // constant speed loss factor
-    protected static final double DRAG = 0.01;
+    private static final double DRAG = 0.01;
 
     private static final Color color = Color.cyan;
     private static final Color thrustColor = Color.orange;
 
-    protected long lastBullet = 0;
+    long lastBullet = 0;
 
-    protected long invuln = 0;
+    long invuln = 0;
 
     // controller which provides an Action object in each frame
 
-    protected Controller ctrl;
+    Controller ctrl;
 
     private int[] XP = {0, (int) size, 0, (int) -size};
     private int[] YP = {(int) -size, (int) size, 0, (int) size};
@@ -46,8 +46,8 @@ public class Ship extends GameObject {
         direction.normalise();
     }
 
-    Ship() {
-        this((double) FRAME_WIDTH / 2, (double) FRAME_HEIGHT / 2, 0, 0,0, -1, 100);
+    public Ship() {
+        this((double) FRAME_WIDTH / 2, (double) FRAME_HEIGHT / 2, 0, 0, 0, -1, 100);
     }
 
     Ship(Controller ctrl) {
@@ -93,7 +93,7 @@ public class Ship extends GameObject {
         g.setTransform(at);
     }
 
-    public Color colour(Color c) {
+    private Color colour(Color c) {
         if (invuln > 0) {
             return new Color((float) c.getRed() / 255f, (float) c.getGreen() / 255f, (float) c.getBlue() / 255f, 0.3f);
         } else return c;

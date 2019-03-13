@@ -4,11 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameFrame extends JFrame {
-    public Component comp;
 
     public GameFrame(Component comp, String title, boolean OVERLAY, boolean FULLSCREEN) {
         super(title);
-        this.comp = comp;
         getContentPane().add(BorderLayout.CENTER, comp);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -21,20 +19,8 @@ public class GameFrame extends JFrame {
             }
         }
 
-
         pack();
         setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setVisible(true);
-    }
-
-    public GameFrame(Component comp, String title) {
-        super(title);
-        this.comp = comp;
-        getContentPane().add(BorderLayout.CENTER, comp);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        pack();
-        setVisible(true);
-        setLocationRelativeTo(null);
     }
 }

@@ -1,4 +1,5 @@
 package utilities;
+
 // mutable 2D vectors
 public final class Vector2D {
     public double x, y;
@@ -51,7 +52,7 @@ public final class Vector2D {
 
     //  magnitude (= "length") of this vector
     public double mag() {
-        return Math.hypot(x,y);
+        return Math.hypot(x, y);
     }
 
     // angle between vector and horizontal axis in radians in range [-PI,PI]
