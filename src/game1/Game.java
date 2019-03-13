@@ -1,7 +1,7 @@
 package game1;
 
-import utilities.BasicController;
-import utilities.JEasyFrame;
+import utilities.Controller;
+import utilities.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,17 +11,17 @@ import java.util.ListIterator;
 
 import static game1.Constants.*;
 
-public class BasicGame {
+public class Game {
     public static final int N_INITIAL_ASTEROIDS = (int) (Math.pow(5,
             (Math.log((double) Math.min(Toolkit.getDefaultToolkit().getScreenSize().height,
                     Toolkit.getDefaultToolkit().getScreenSize().width) / 200))) / 2);
     public List<GameObject> objects = new ArrayList<>();
     public List<GameObject> objectsToAdd = new ArrayList<>();
 
-    public BasicShip ship;
-    public BasicController ctrl;
+    public Ship ship;
+    public Controller ctrl;
     public InfoPanel info;
-    public BasicView view;
+    public View view;
     private int score;
     private int lives;
     int level = 1;
@@ -34,9 +34,9 @@ public class BasicGame {
         objectsToAdd.add(o);
     }
 
-    public BasicGame() {
-        ctrl = new BasicKeys();
-        ship = new BasicShip(ctrl);
+    public Game() {
+        ctrl = new Keys();
+        ship = new Ship(ctrl);
         score = 0;
         lives = 5;
 
@@ -44,12 +44,12 @@ public class BasicGame {
 
         Constants.game = this;
         info = new InfoPanel(this);
-        view = new BasicView(game);
+        view = new View(game);
     }
 
     public void populate() {
         for (int i = 0; i < N_INITIAL_ASTEROIDS + Math.pow((level > 0 ? level : 1), 1.4); i++)
-            objects.add(BasicAsteroid.makeRandomAsteroid());
+            objects.add(Asteroid.makeRandomAsteroid());
         ship.invuln(5);
     }
 
@@ -67,8 +67,8 @@ public class BasicGame {
 
     public static void main(String[] args) throws Exception {
         System.setProperty("sun.java2d.opengl", "true");
-        BasicGame game = new BasicGame();
-        JEasyFrame frame = new JEasyFrame(game.view, "Basic Game", OVERLAY, FULLSCREEN);
+        Game game = new Game();
+        GameFrame frame = new GameFrame(game.view, "Basic Game", OVERLAY, FULLSCREEN);
         frame.addKeyListener(game.ctrl);
 
         long from = System.nanoTime();
@@ -93,7 +93,7 @@ public class BasicGame {
     }
 
     public int asteroids() {
-        return (int) objects.stream().filter(o -> o instanceof BasicAsteroid).count();
+        return (int) objects.stream().filter(o -> o instanceof Asteroid).count();
     }
 
     public int getScore() {

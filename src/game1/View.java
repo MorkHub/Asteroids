@@ -3,19 +3,19 @@ package game1;
 import javax.swing.*;
 import java.awt.*;
 
-public class BasicView extends JComponent {
+public class View extends JComponent {
     public static final Color BG_COLOR = Color.black;
     float hue = 0;
 
-    private BasicGame game;
+    private Game game;
 
-    public BasicView(BasicGame game) {
+    public View(Game game) {
         this.game = game;
     }
 
     @Override
     public void paintComponent(Graphics g0) {
-        synchronized (BasicGame.class) {
+        synchronized (Game.class) {
             Graphics2D g = (Graphics2D) g0;
 
             if (!Constants.OVERLAY) {

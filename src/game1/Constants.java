@@ -15,5 +15,5 @@ class Constants {
     public static final double DT = DELAY / 1000.0;  // in seconds
 
     public static final Font UI_FONT = new Font("monospace", Font.PLAIN, 12);
-    public static BasicGame game;
+    public static Game game;
 }

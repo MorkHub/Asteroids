@@ -1,14 +1,14 @@
 package game1;
 
 import utilities.Action;
-import utilities.BasicController;
+import utilities.Controller;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class BasicKeys extends KeyAdapter implements BasicController {
+public class Keys extends KeyAdapter implements Controller {
     Action action;
-    public BasicKeys() {
+    public Keys() {
         action = new Action();
     }
 

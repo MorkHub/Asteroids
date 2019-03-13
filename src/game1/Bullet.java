@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 
 import static game1.Constants.*;
 
-public class BasicBullet extends GameObject {
+public class Bullet extends GameObject {
     public long alive;
 
     private int[] XP = {0, (int) size, 0, (int) -size};
@@ -17,13 +17,13 @@ public class BasicBullet extends GameObject {
         return this.size;
     }
 
-    public BasicBullet(Vector2D position, Vector2D velocity, Vector2D direction) {
+    public Bullet(Vector2D position, Vector2D velocity, Vector2D direction) {
         super(position, velocity, direction, 70);
     }
 
     @Override
     public void update(double dt) {
-        synchronized (BasicGame.class) {
+        synchronized (Game.class) {
             super.update(dt);
             alive += dt;
             if (alive >= 2_000_000_000) dead = true;

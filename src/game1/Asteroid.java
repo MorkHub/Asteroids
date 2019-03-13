@@ -8,24 +8,24 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Random;
 
-public class BasicAsteroid extends GameObject {
+public class Asteroid extends GameObject {
     public static final double MAX_SPEED = 160;
 
-    public BasicAsteroid(double x, double y, double vx, double vy, double dx, double dy) {
+    public Asteroid(double x, double y, double vx, double vy, double dx, double dy) {
         this(x, y, vx, vy, dx, dy, 150);
     }
 
-    public BasicAsteroid(double x, double y, double vx, double vy, double dx, double dy, double size) {
+    public Asteroid(double x, double y, double vx, double vy, double dx, double dy, double size) {
         super(new Vector2D(x, y), new Vector2D(vx, vy), new Vector2D(dx, dy), size);
         if (velocity.mag() < MAX_SPEED / 4) velocity.mult(4);
         direction.normalise();
     }
 
-    public BasicAsteroid debris() {
+    public Asteroid debris() {
         Vector2D vel = new Vector2D(velocity).mult(1 + (Math.random() * 0.2)).rotate(Math.random() * Math.PI);
         Vector2D dir = new Vector2D(0, 1).rotate(Math.random() * Math.PI);
 
-        return new BasicAsteroid(
+        return new Asteroid(
                 position.x, position.y,
                 vel.x, vel.y,
                 dir.x, dir.y,
@@ -34,10 +34,10 @@ public class BasicAsteroid extends GameObject {
 
     @Override
     public boolean collidesWith(GameObject other) {
-        return other instanceof BasicBullet || other instanceof BasicShip;
+        return other instanceof Bullet || other instanceof Ship;
     }
 
-    public static BasicAsteroid makeRandomAsteroid() {
+    public static Asteroid makeRandomAsteroid() {
         Random r = new Random();
         int width, height;
         if (game != null && game.view != null) {
@@ -48,7 +48,7 @@ public class BasicAsteroid extends GameObject {
             height = FRAME_HEIGHT;
         }
 
-        return new BasicAsteroid(r.nextInt(width), r.nextInt(height), 2 * MAX_SPEED * r.nextDouble() - MAX_SPEED, 2 * MAX_SPEED * r.nextDouble() - MAX_SPEED, r.nextDouble() * Math.PI, r.nextDouble() * Math.PI);
+        return new Asteroid(r.nextInt(width), r.nextInt(height), 2 * MAX_SPEED * r.nextDouble() - MAX_SPEED, 2 * MAX_SPEED * r.nextDouble() - MAX_SPEED, r.nextDouble() * Math.PI, r.nextDouble() * Math.PI);
     }
 
     private int[] XP = {(int) size, (int) size, (int) -size, (int) -size};

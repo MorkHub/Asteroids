@@ -6,24 +6,24 @@ import java.awt.*;
 
 public class InfoPanel {
 
-    private BasicGame game;
+    private Game game;
     private long ns = System.nanoTime();
     private String left = "";
     private String right = "";
 
     private Vector2D pos;
 
-    public InfoPanel(BasicGame game) {
+    public InfoPanel(Game game) {
         this(20, 20, game);
     }
 
-    public InfoPanel(double x, double y, BasicGame game) {
+    public InfoPanel(double x, double y, Game game) {
         this.pos = new Vector2D(x, y);
         this.game = game;
     }
 
     public void update() {
-        BasicShip ship = game.ship;
+        Ship ship = game.ship;
         long fps = 1_000_000_000L / (-ns + (ns=System.nanoTime()));
 
         this.left = String.format("FPS: %s\nPOS: %s\nVEL: %s\nDIR: %s", fps, ship.getPosition(), ship.getVelocity(), ship.getDirection());

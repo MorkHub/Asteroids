@@ -1,6 +1,6 @@
 package game1;
 
-import utilities.BasicController;
+import utilities.Controller;
 import utilities.Vector2D;
 
 import static game1.Constants.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Random;
 
-public class BasicShip extends GameObject {
+public class Ship extends GameObject {
     // rotation velocity in radians per second
     private static final double STEER_RATE = 2.5 * Math.PI;
 
@@ -28,7 +28,7 @@ public class BasicShip extends GameObject {
 
     // controller which provides an Action object in each frame
 
-    private BasicController ctrl;
+    private Controller ctrl;
     private int[] XP = {0, (int) size, 0, (int) -size};
 
     private int[] YP = {(int) -size, (int) size, 0, (int) size};
@@ -39,20 +39,20 @@ public class BasicShip extends GameObject {
         return direction;
     }
 
-    BasicShip() {
+    Ship() {
         super(new Vector2D((double) FRAME_WIDTH / 2, (double) FRAME_HEIGHT / 2), new Vector2D(),
                 new Vector2D(0, -1).normalise(), 100);
         invuln(3);
     }
 
-    BasicShip(BasicController ctrl) {
+    Ship(Controller ctrl) {
         this();
         this.ctrl = ctrl;
     }
 
     @Override
     public void update(double dt) {
-        synchronized (BasicGame.class) {
+        synchronized (Game.class) {
             velocity.mult(1 - DRAG);
 
             direction.rotate(STEER_RATE * DT * ctrl.action().turn);
@@ -68,7 +68,7 @@ public class BasicShip extends GameObject {
 
     @Override
     public String toString() {
-        return String.format("BasicShip{position=%s, velocity=%s, direction=%s}", position, velocity, direction);
+        return String.format("Ship{position=%s, velocity=%s, direction=%s}", position, velocity, direction);
     }
 
     public void draw(Graphics2D g) {
@@ -122,7 +122,7 @@ public class BasicShip extends GameObject {
 
     @Override
     public boolean collidesWith(GameObject other) {
-        return this.invuln <= 0 && (other instanceof BasicAsteroid /*|| other instanceof BasicBullet*/) && other.collidesWith(this);
+        return this.invuln <= 0 && (other instanceof Asteroid /*|| other instanceof Bullet*/) && other.collidesWith(this);
     }
 
     public void fire() {
@@ -130,7 +130,7 @@ public class BasicShip extends GameObject {
         double cone = Math.toRadians(fireRate / 20);
 
         game.modScore(-5);
-        game.addObject(new BasicBullet(
+        game.addObject(new Bullet(
                 new Vector2D(position).add(new Vector2D(direction).normalise().mult((70 + size) * DRAWING_SCALE)).addScaled(velocity, DT),
                 new Vector2D(direction).normalise().mult(1000).rotate(2 * r.nextDouble() * cone - cone).add(velocity),
                 new Vector2D(direction)));
