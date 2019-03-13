@@ -31,6 +31,7 @@ public class InfoPanel {
     }
 
     public void draw(Graphics2D g) {
+
         int h = g.getFontMetrics().getHeight();
         int x = (int) pos.x;
         int y = (int) pos.y;
@@ -43,6 +44,8 @@ public class InfoPanel {
             g.drawString(s, game.view.getWidth() - x - g.getFontMetrics().stringWidth(s), y);
             y += h;
         }
+
+        if (!game.ctrl.action().info) return;
 
         y = (int) pos.y;
         lines = left.split("\n");

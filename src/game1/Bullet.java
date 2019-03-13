@@ -38,7 +38,7 @@ public class Bullet extends GameObject {
         g.scale(DRAWING_SCALE, DRAWING_SCALE);
 
         g.setColor(color);
-        g.fillPolygon(XP, YP, XP.length);
+        g.fillRect((int) (0 - size/2), (int) (0 - size/2), (int) (size * 1.4), (int) (size * 1.4));
 
         g.setTransform(at);
     }

@@ -46,6 +46,9 @@ public class Keys extends KeyAdapter implements Controller {
             case KeyEvent.VK_S:
                 action.shoot = true;
                 break;
+            case KeyEvent.VK_F1:
+                action.info = !action.info;
+                break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
         }

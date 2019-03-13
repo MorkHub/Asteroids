@@ -122,7 +122,7 @@ public class Ship extends GameObject {
 
     @Override
     public boolean collidesWith(GameObject other) {
-        return this.invuln <= 0 && (other instanceof Asteroid /*|| other instanceof Bullet*/) && other.collidesWith(this);
+        return this.invuln <= 0 && (other instanceof Asteroid || other instanceof Bullet) && other.collidesWith(this);
     }
 
     public void fire() {
@@ -132,7 +132,7 @@ public class Ship extends GameObject {
         game.modScore(-5);
         game.addObject(new Bullet(
                 new Vector2D(position).add(new Vector2D(direction).normalise().mult((70 + size) * DRAWING_SCALE)).addScaled(velocity, DT),
-                new Vector2D(direction).normalise().mult(1000).rotate(2 * r.nextDouble() * cone - cone).add(velocity),
+                new Vector2D(direction).normalise().mult(600).rotate(2 * r.nextDouble() * cone - cone).add(velocity),
                 new Vector2D(direction)));
     }
 }
