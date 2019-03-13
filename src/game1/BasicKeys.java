@@ -21,6 +21,15 @@ public class BasicKeys extends KeyAdapter implements BasicController {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
+            case KeyEvent.VK_PAGE_UP:
+                Constants.game.level++;
+                break;
+            case KeyEvent.VK_PAGE_DOWN:
+                Constants.game.level--;
+                break;
+            case KeyEvent.VK_END:
+                Constants.game.objects.clear();
+                break;
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 action.thrust = 1;

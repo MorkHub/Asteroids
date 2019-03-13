@@ -26,8 +26,8 @@ public class InfoPanel {
         BasicShip ship = game.ship;
         long fps = 1_000_000_000L / (-ns + (ns=System.nanoTime()));
 
-        this.left = String.format("FPS: %s\nPOS: %s\nVEL: %s\nDIR: %s", fps, ship.getPosition(), ship.getVelocity(), ship.getDirection(), game.score);
-        this.right = String.format("LIVES: %d\nSCORE: %,d", game.lives, game.score);
+        this.left = String.format("FPS: %s\nPOS: %s\nVEL: %s\nDIR: %s", fps, ship.getPosition(), ship.getVelocity(), ship.getDirection());
+        this.right = String.format("LEVEL: %,d\nLIVES: %,d\nSCORE: %,d\nTARGETS: %,d", game.getLevel(), game.getLives(), game.getScore(), game.asteroids());
     }
 
     public void draw(Graphics2D g) {

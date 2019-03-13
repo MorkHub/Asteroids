@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import static game1.Constants.*;
 
 public class BasicBullet extends GameObject {
-    public long die;
+    public long alive;
 
     private int[] XP = {0, (int) size, 0, (int) -size};
     private int[] YP = {(int) -size, (int) size, 0, (int) size};
@@ -19,14 +19,14 @@ public class BasicBullet extends GameObject {
 
     public BasicBullet(Vector2D position, Vector2D velocity, Vector2D direction) {
         super(position, velocity, direction, 70);
-        die = System.nanoTime() + 1_000_000_000 * 2;
     }
 
     @Override
-    public void update() {
+    public void update(double dt) {
         synchronized (BasicGame.class) {
-            super.update();
-            if (System.nanoTime() > die) dead = true;
+            super.update(dt);
+            alive += dt;
+            if (alive >= 2_000_000_000) dead = true;
         }
     }
 

@@ -23,8 +23,8 @@ public class JEasyFrame extends JFrame {
 
 
         pack();
+        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setVisible(true);
-        setLocationRelativeTo(null);
     }
 
     public JEasyFrame(Component comp, String title) {

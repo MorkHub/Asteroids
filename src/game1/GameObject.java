@@ -5,8 +5,6 @@ import utilities.Vector2D;
 import static game1.Constants.*;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class GameObject {
     protected Vector2D position;
@@ -26,7 +24,7 @@ public abstract class GameObject {
 
     public abstract void draw(Graphics2D g);
 
-    public void update() {
+    public void update(double dt) {
         if (Double.isNaN(position.x)) position.x = 0;
         if (Double.isNaN(position.y)) position.y = 0;
         position.addScaled(velocity, DT);
@@ -61,11 +59,12 @@ public abstract class GameObject {
         return hitbox().intersects(other.hitbox());
     }
 
-    List<Class<? extends GameObject>> collidables = Arrays.asList(BasicShip.class, BasicBullet.class,
-            BasicAsteroid.class);
+    public boolean collidesWith(GameObject other) {
+        return true;
+    }
 
     public void collisionHandling(GameObject other) {
-        if (collidables.contains(other.getClass())) {
+        if (collidesWith(other)) {
             if (this.getClass() != other.getClass() && this.overlap(other)) {
                 this.hit();
                 other.hit();
