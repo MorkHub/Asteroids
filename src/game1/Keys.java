@@ -7,8 +7,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Keys extends KeyAdapter implements Controller {
-    Action action;
-    public Keys() {
+    private Action action;
+    Keys() {
         action = new Action();
     }
 
@@ -49,6 +49,9 @@ public class Keys extends KeyAdapter implements Controller {
             case KeyEvent.VK_F1:
                 action.info = !action.info;
                 break;
+            case KeyEvent.VK_H:
+                action.debug = true;
+                break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
         }
@@ -70,6 +73,9 @@ public class Keys extends KeyAdapter implements Controller {
             case KeyEvent.VK_SPACE:
             case KeyEvent.VK_S:
                 action.shoot = false;
+                break;
+            case KeyEvent.VK_H:
+                action.debug = false;
                 break;
         }
     }

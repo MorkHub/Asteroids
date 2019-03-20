@@ -12,8 +12,8 @@ public class EnemyBullet extends Bullet {
     }
 
     @Override
-    public void draw(Graphics2D g) {
-        super.draw(g);
+    public void doDraw(Graphics2D g) {
+        super.doDraw(g);
     }
 
     @Override

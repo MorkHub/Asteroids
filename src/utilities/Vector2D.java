@@ -134,6 +134,9 @@ public final class Vector2D {
 
     // normalise vector so that magnitude becomes 1
     public Vector2D normalise() {
+        if (mag() == 0)
+            return this;
+
         mult(1 / mag());
         return this;
     }
@@ -144,6 +147,10 @@ public final class Vector2D {
         x = (x + w) % w;
         y = (y + h) % h;
         return this;
+    }
+
+    public Vector2D diff(Vector2D other) {
+        return new Vector2D(other.x - this.x, other.y - this.y);
     }
 
     // construct vector with given polar coordinates

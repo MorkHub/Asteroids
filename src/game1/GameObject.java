@@ -13,8 +13,9 @@ public abstract class GameObject {
     protected Color color = Color.WHITE;
     protected double size = 100;
     protected boolean dead = false;
+    private String name;
 
-    public double size() {
+    public final double size() {
         return this.size;
     }
 
@@ -22,7 +23,29 @@ public abstract class GameObject {
         return dead;
     }
 
-    public abstract void draw(Graphics2D g);
+    protected final void setName(String name) {
+        this.name = name;
+    }
+
+    public final String getName() {
+        return name != null ? name : getClass().getSimpleName();
+    }
+
+    public final void draw(Graphics2D g) {
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        if (game.ctrl.action().debug) {
+            Color c = g.getColor();
+            g.setStroke(new BasicStroke(2));
+            g.setColor(Color.red);
+            g.draw(hitbox());
+            g.setColor(c);
+        }
+
+        g.setStroke(new BasicStroke(10));
+        doDraw(g);
+    }
+
+    public abstract void doDraw(Graphics2D g);
 
     public void update(double dt) {
         if (Double.isNaN(position.x)) position.x = 0;
@@ -31,11 +54,11 @@ public abstract class GameObject {
         position.wrap(game.view.getWidth(), game.view.getHeight());
     }
 
-    public Vector2D getPosition() {
+    public final Vector2D getPosition() {
         return position;
     }
 
-    public Vector2D getVelocity() {
+    public final Vector2D getVelocity() {
         return velocity;
     }
 
@@ -46,7 +69,7 @@ public abstract class GameObject {
         this.size = size;
     }
 
-    public void hit() {
+    public void hit(GameObject other) {
         this.dead = true;
     }
 
@@ -60,20 +83,25 @@ public abstract class GameObject {
     }
 
     public boolean collidesWith(GameObject other) {
-        return true && other.collidesWith(this);
+        return true;
     }
 
     public void collisionHandling(GameObject other) {
+        if (this == other)
+            return;
+
         if (collidesWith(other)) {
-            if (this.getClass() != other.getClass() && this.overlap(other)) {
-                this.hit();
-                other.hit();
+            if (this.overlap(other)) {
+                this.hit(other);
+                if (getClass() != other.getClass()) {
+                    other.hit(this);
+                }
             }
         }
     }
 
     @Override
     public String toString() {
-        return String.format("%s{%s, %s}", getClass().getSimpleName(), position, velocity);
+        return String.format("%s{%s, %s}", getName(), position, velocity);
     }
 }

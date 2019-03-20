@@ -22,6 +22,7 @@ public class Enemy extends Ship {
             public void keyPressed(KeyEvent e) {}
             public void keyReleased(KeyEvent e) {}
         };
+        setName("Enemy");
     }
 
     public static Enemy makeRandomEnemy() {
@@ -68,7 +69,7 @@ public class Enemy extends Ship {
     private int[] YP = {(int) size, (int) size, 0, 0};
 
     @Override
-    public void draw(Graphics2D g) {
+    public void doDraw(Graphics2D g) {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
         double rot = direction.angle() + Math.PI / 2;
@@ -90,7 +91,7 @@ public class Enemy extends Ship {
     }
 
     @Override
-    public void hit() {
+    public void hit(GameObject other) {
         this.dead = true;
     }
 

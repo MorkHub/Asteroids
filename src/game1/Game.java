@@ -6,6 +6,7 @@ import utilities.GameFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -25,7 +26,7 @@ public class Game {
     private int score;
     private int lives;
     boolean reset = false;
-    int level = 1;
+    int level = 0;
 
     int getLevel() {
         return level;
@@ -35,29 +36,33 @@ public class Game {
         objectsToAdd.add(o);
     }
 
+    void addObjects(Collection<GameObject> o) {
+        objectsToAdd.addAll(o);
+    }
+
     private Game() {
         ctrl = new Keys();
         ship = new Ship(ctrl);
         score = 0;
         lives = 5;
 
-        populate();
-
         Constants.game = this;
         info = new InfoPanel(this);
         view = new View(game);
+
+//        populate();
     }
 
     private void populate() {
         for (int i = 0; i < N_INITIAL_ASTEROIDS + Math.pow((level > 0 ? level : 1), 1.4); i++)
             objects.add(Asteroid.makeRandomAsteroid());
 
-        if ((level) % 4 == 0) {
-            Enemy e = Enemy.makeRandomEnemy();
-            objects.add(e);
-        }
+        for (int i = 0; i < Math.floor(level / 4); i++)
+            objects.add(Enemy.makeRandomEnemy());
 
         ship.invuln(5);
+
+        addObject(Title.showTitle(view, "Level " + level));
     }
 
     private void over() {
@@ -106,6 +111,12 @@ public class Game {
 
     private void update(long dt) {
         if (asteroids() == 0 || reset) {
+            objects.clear();
+
+            if (ship.isDead()) {
+                over();
+            }
+
             level++;
             populate();
             reset = false;

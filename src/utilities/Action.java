@@ -5,4 +5,5 @@ public class Action {
     public int turn; // -1 = left turn, 0 = no turn, 1 = right turn
     public boolean shoot;
     public boolean info;
+    public boolean debug;
 }

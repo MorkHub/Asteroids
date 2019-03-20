@@ -44,6 +44,7 @@ public class Ship extends GameObject {
         super(new Vector2D(x, y), new Vector2D(vx, vy), new Vector2D(dx, dy), size);
         if (velocity.mag() < MAX_SPEED / 4) velocity.mult(4);
         direction.normalise();
+        setName("Ship");
     }
 
     public Ship() {
@@ -76,7 +77,7 @@ public class Ship extends GameObject {
         return String.format("Ship{position=%s, velocity=%s, direction=%s}", position, velocity, direction);
     }
 
-    public void draw(Graphics2D g) {
+    public void doDraw(Graphics2D g) {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
         double rot = direction.angle() + Math.PI / 2;
@@ -119,10 +120,14 @@ public class Ship extends GameObject {
         return new Rectangle((int) (position.x - s), (int) (position.y - s), (int) (s * 2), (int) (s * 2));
     }
 
-    public void hit() {
+    @Override
+    public void hit(GameObject other) {
         this.dead = (game.modLives(-1)) <= 0;
-        if (!dead)
+
+        if (!dead) {
             this.invuln(3);
+            game.addObject(Title.showTitle(game.view, String.format("Hull breach! %d hits until critical.", game.getLives()), Color.red, 3, 0, 1));
+        }
     }
 
     @Override
