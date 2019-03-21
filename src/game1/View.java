@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class View extends JComponent {
     public static final Color BG_COLOR = Color.black;
-    float hue = 0;
 
     private Game game;
 
@@ -26,6 +25,7 @@ public class View extends JComponent {
             game.objects.forEach(o -> o.draw(g));
             game.ship.draw(g);
             game.info.draw(g);
+            game.title.draw(g);
         }
     }
 

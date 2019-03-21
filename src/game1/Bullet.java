@@ -8,11 +8,13 @@ import java.awt.geom.AffineTransform;
 import static game1.Constants.*;
 
 public class Bullet extends GameObject {
+    private int[] XP = {0, (int) size/5, 0, (int) -size/5};
+    private int[] YP = {(int) -size, (int) size, 0, (int) size};
+
+    protected Color color = Color.red;
+
     public long alive;
     public long lifetime;
-
-    private int[] XP = {0, (int) size, 0, (int) -size};
-    private int[] YP = {(int) -size, (int) size, 0, (int) size};
 
     public Bullet(Vector2D position, Vector2D velocity, Vector2D direction, int lifetime) {
         super(position, velocity, direction, 70);
@@ -34,15 +36,6 @@ public class Bullet extends GameObject {
     }
 
     @Override
-    public boolean collidesWith(GameObject other) {
-        if (other instanceof Ship) {
-            return alive > 250_000_000;
-        }
-
-        return true;
-    }
-
-    @Override
     public void doDraw(Graphics2D g) {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
@@ -50,8 +43,17 @@ public class Bullet extends GameObject {
         g.scale(DRAWING_SCALE, DRAWING_SCALE);
 
         g.setColor(color);
-        g.fillRect((int) (0 - size/2), (int) (0 - size/2), (int) (size * 1.4), (int) (size * 1.4));
+        g.fillPolygon(XP, YP, XP.length);
 
         g.setTransform(at);
+    }
+
+    @Override
+    public boolean collidesWith(GameObject other) {
+        if (other instanceof Ship) {
+            return alive > 250_000_000;
+        }
+
+        return !(other instanceof Bullet);
     }
 }
